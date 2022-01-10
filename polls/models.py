@@ -26,3 +26,4 @@ class Comment(models.Model):
 class UserChoice(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     choice = models.ForeignKey('Choice', on_delete=models.CASCADE)
+    poll = models.ForeignKey('Poll', blank=True, null=True, on_delete=models.CASCADE)

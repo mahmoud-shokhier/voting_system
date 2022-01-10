@@ -47,5 +47,26 @@ class RefreshTokenSerializer(serializers.Serializer):
             msg = _('Reresh token is not valid.')
             raise serializers.ValidationError(msg, code='authorization')
 
-         
-        
+class RegisterSerializers(serializers.Serializer):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'password','name']
+        write_only_fields = ('password',)
+        read_only_fields = ('id',)
+    email = serializers.CharField(max_length=255)
+    name = serializers.CharField(max_length=255)
+    password = serializers.CharField(
+        label=_("Password"),
+        style={'input_type': 'password'},
+        trim_whitespace=False,
+        max_length=128,
+        write_only=True
+    )
+    def create(self, validated_data):
+        user = CustomUser.objects.create(
+            name=validated_data['name'],
+            email=validated_data['email'],
+        )
+        user.set_password(validated_data['password'])
+        user.save()
+        return user

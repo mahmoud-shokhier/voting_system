@@ -15,6 +15,7 @@ class CheckTokenMiddleware(authentication.BaseAuthentication):
             auth = JWT_Auth()
             if auth.check_token(header_token, 'secret'):
                 print('authenticated')
+                request.user=user
                 return (user, None)
             else:
                 raise serializers.ValidationError(_('Your token is expired.'), code='authorization')

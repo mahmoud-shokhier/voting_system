@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import  api_view, schema
 from django.utils.translation import gettext_lazy as _
 from rest_framework.generics import CreateAPIView
+from rest_framework.exceptions import ValidationError
 
 from .models import *
 from .logic.jwt_auth import JWT_Auth
@@ -52,3 +53,11 @@ class RefreshToken(CreateAPIView):
         else:
             msg = _('refresh token is expired.')
             raise serializers.ValidationError(msg, code='authorization')
+
+
+class Register(CreateAPIView):
+    serializer_class = RegisterSerializers
+    queryset = ''
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+

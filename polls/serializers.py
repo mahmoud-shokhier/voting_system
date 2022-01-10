@@ -25,6 +25,20 @@ class PollSerializer(serializers.ModelSerializer):
         model = Poll
         ordering = ('expiry_date_time',)
         fields = ('id', 'name', 'description', 'expiry_date_time', 'choices', 'poll_status')
-    
-    
-    
+
+
+class VoteSerializer(serializers.ModelSerializer):
+    choice_id = serializers.IntegerField(min_value=1)
+    poll_id = serializers.IntegerField(min_value=1)
+    class Meta:
+        model = UserChoice
+        fields = ('id', 'poll_id', 'choice_id')
+        
+
+class CommentSerializer(serializers.ModelSerializer):
+    poll_id = serializers.IntegerField(min_value=1)
+    comment_text = serializers.CharField(max_length=255, min_length=2)
+    class Meta:
+        model = Comment
+        fields = ('id', 'poll_id', 'comment_text')
+        
